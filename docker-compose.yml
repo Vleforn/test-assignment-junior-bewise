@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:17.2
+    container_name: postgres_container
+    environment:
+      POSTGRES_PASSWORD: 12345
+    volumes:
+      - ./scripts/:/docker-entrypoint-initdb.d/
+      - database_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  fastapi:
+    build: .
+    env_file: "prod.env"
+    ports:
+      - "6969:8080"
+
+volumes:
+  database_data:
