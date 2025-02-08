@@ -17,7 +17,7 @@ async def redirect_to_docs():
 
 
 @app.get("/questions", status_code=status.HTTP_200_OK, response_model=list[QuestionModel])
-async def get_questions(session: Session = Depends(get_session)):
+async def get_questions(session: Session = Depends(get_session)) -> list[QuestionModel]:
     stmt = select(Questions)
     questions = await session.execute(stmt)
     questions = questions.scalars().all()
@@ -25,7 +25,7 @@ async def get_questions(session: Session = Depends(get_session)):
 
 
 @app.post("/save", status_code=status.HTTP_201_CREATED, response_model=list[QuestionModel])
-async def save_questions(body: BodyModel, session: Session = Depends(get_session)):
+async def save_questions(body: BodyModel, session: Session = Depends(get_session)) -> list[QuestionModel]:
     num = body.question_num
     question_dict_list = await request_questions(num)
     question_models = []

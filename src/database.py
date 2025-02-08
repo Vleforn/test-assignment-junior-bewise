@@ -7,7 +7,6 @@ from sqlalchemy.sql.expression import text
 from datetime import datetime
 from config import settings
 
-
 class Base(DeclarativeBase):
     pass
 
@@ -25,7 +24,7 @@ class Questions(Base):
 engine = create_async_engine(settings.postgres_url)
 new_session = async_sessionmaker(engine, expire_on_commit=False)
 
-async def init_db():
+async def init_db() -> None:
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
